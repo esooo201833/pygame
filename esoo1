@@ -1,0 +1,54 @@
+import pygame
+
+# Define the game window
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Define the player character
+PLAYER_SPRITE = pygame.image.load("player.png")
+PLAYER_X = 100
+PLAYER_Y = 100
+
+# Define the enemy character
+ENEMY_SPRITE = pygame.image.load("enemy.png")
+ENEMY_X = 500
+ENEMY_Y = 500
+
+# Start the game loop
+while True:
+
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Move the player character
+    if pygame.key.get_pressed()[pygame.K_LEFT]:
+        PLAYER_X -= 5
+    if pygame.key.get_pressed()[pygame.K_RIGHT]:
+        PLAYER_X += 5
+    if pygame.key.get_pressed()[pygame.K_UP]:
+        PLAYER_Y -= 5
+    if pygame.key.get_pressed()[pygame.K_DOWN]:
+        PLAYER_Y += 5
+
+    # Move the enemy character
+    ENEMY_X += 1
+    ENEMY_Y += 1
+
+    # Check for collisions
+    if PLAYER_X < ENEMY_X + ENEMY_SPRITE.get_width() and PLAYER_X + PLAYER_SPRITE.get_width() > ENEMY_X and PLAYER_Y < ENEMY_Y + ENEMY_SPRITE.get_height() and PLAYER_Y + PLAYER_SPRITE.get_height() > ENEMY_Y:
+        # Game over
+        print("Game over!")
+        pygame.quit()
+        sys.exit()
+
+    # Draw the game world
+    SCREEN.fill((0, 0, 0))
+    SCREEN.blit(PLAYER_SPRITE, (PLAYER_X, PLAYER_Y))
+    SCREEN.blit(ENEMY_SPRITE, (ENEMY_X, ENEMY_Y))
+
+    # Update the display
+    pygame.display.flip()
